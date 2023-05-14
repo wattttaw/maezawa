@@ -1,0 +1,216 @@
+//*------------------*
+//*  変数管理
+//*------------------*
+
+//color
+$color-black: #333333;
+$color-white: #ffffff;
+
+//font-family
+//-->ヒラギノver.
+$font-main: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ",
+  Meiryo, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+
+//-->游ゴシックver.
+// $font-main:"游ゴシック Medium","Yu Gothic Medium","游ゴシック体",YuGothic,sans-serif;
+
+//*------------------*
+//*  レスポンシブ定義
+//*------------------*
+
+//ブレイクポイント
+$tb: 959px; //タブレット
+$mb: 559px; //スマホ
+
+//@mediaのフォーマット
+//タブレット
+@mixin mobile {
+  @media screen and (max-width: $tb) {
+    @content;
+  }
+}
+//スマホ
+@mixin mobile {
+  @media screen and (max-width: $mb) {
+    @content;
+  }
+}
+
+//*------------------*
+//*  font-size定義
+//*------------------*
+//$sizeにpx表示を入れて使う
+
+@mixin rem($size) {
+  font-size: $size + px; /*IE9以前に対応する*/
+  font-size: ($size / 16) + rem;
+}
+
+//*------------------*
+//*  base(共通)
+//*------------------*
+* {
+  box-sizing: border-box;
+}
+body {
+  @include rem(10);
+  letter-spacing: 0.5em;
+  color: $color-black;
+  font-family: $font-main;
+}
+img {
+  width: 100%;
+  vertical-align: bottom;
+}
+
+//sectionの共通タイトル設定
+.section__ttl {
+  @include rem(18);
+  text-align: center;
+}
+
+//sectionの共通inner設定
+.section__inner {
+  margin: 0 auto;
+  padding: 0 4vw;
+}
+
+//*------------------*
+//*  header
+//*------------------*
+.header {
+  //ヘッダーを固定する場合
+  //position: fixed;
+  @include mobile {
+    background-color: rgba($color-black, 0.7);
+  }
+  &__inner {
+    width: 100%;
+    margin: 0 auto;
+    padding: 2% 4vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+//ナビゲーション
+.nav {
+  margin-left: auto;
+  @include mobile {
+    display: none;
+  }
+  &__list {
+    display: inline-block;
+    margin-right: 1vw;
+  }
+}
+
+//------------ここからhamburgerメニュー----------------->
+//スマホのナビゲーション(ハンバーガーメニュー)
+//ハンバーガーの部分
+.hamburger-btn {
+  display: none;
+  @include mobile {
+    display: block;
+    position: relative;
+    width: 25px;
+    height: 16px;
+    margin-right: 4vw;
+    z-index: 20;
+  }
+}
+.hamburger-btn__parts {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: $color-white;
+  position: absolute;
+  transition: transform 0.5s, opacity 0.5s;
+}
+.hamburger-btn__parts {
+  &.-top {
+    top: 0;
+  }
+  &.-middle {
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  &.-bottom {
+    bottom: 0;
+  }
+}
+
+//タップ後のハンバーガー
+//１つ目のspanを-45度にする
+.hamburger-btn.active {
+  .hamburger-btn__parts {
+    &.-top {
+      transform: translateY(10px) rotate(-45deg);
+    }
+    //2つ目のspanを消す
+    &.-middle {
+      opacity: 0;
+    }
+    //3番目のspanを45度に
+    &.-bottom {
+      transform: translateY(-4px) rotate(45deg);
+    }
+  }
+}
+
+//スライドメニュー
+.hamburger {
+  display: none;
+  @include mobile {
+    display: block;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    transform: translateX(100vw);
+    transition: all 0.3s;
+    background-color: $color-black;
+    &__lists {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+    }
+    &__list {
+      @include rem(16);
+      list-style: none;
+      text-align: center;
+    }
+    &__list + &__list {
+      padding-top: 50px;
+    }
+    &__link {
+      text-decoration: none;
+      color: $color-white;
+    }
+  }
+}
+//activeクラスをつけたら、スライドイン
+.hamburger.active {
+  transform: translateX(0);
+}
+
+//------------//ここまでhamburgerメニュー------------------>
+
+//*------------------*
+//*  fv
+//*------------------*
+
+//*------------------*
+//*  section
+//*------------------*
+
+//*------------------*
+//*  footer
+//*------------------*
